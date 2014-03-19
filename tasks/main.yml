@@ -1,4 +1,10 @@
 ---
 # Install Logstash
-- include: logstash.yml tags=logstash
+- set_fact: logstash_start=initscripts
   when: ansible_distribution in [ 'Debian', 'Ubuntu' ]
+
+- set_fact: logstash_start=upstart
+  when: ansible_distribution in [ 'CentOS' ]
+
+- include: logstash.yml tags=logstash
+  when: ansible_distribution in [ 'Debian', 'Ubuntu', 'CentOS' ]

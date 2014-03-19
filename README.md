@@ -12,7 +12,7 @@ The role contains tasks to install Logstash.
 ## Requires
 
 1. Ansible 1.4 or higher
-2. Debian 7.3 (other deb-based distros should work too)
+2. Debian 7.3 or CentOS 6.x
 3. Vagrant (optional)
 
 ## Usage
