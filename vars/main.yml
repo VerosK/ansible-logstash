@@ -12,6 +12,7 @@ logstash:
       - 'java-1.7.0-openjdk'
   dir: '/opt/logstash'
   conf: '/opt/logstash/etc'
+  redis_service: 'redis'
   indexer: 
     conf: '/opt/logstash/etc/indexer.conf'
     service: 'logstash-indexer'
@@ -20,5 +21,6 @@ logstash:
     conf: '/opt/logstash/etc/shipper.conf'
     service: 'logstash-shipper'
     name: 'logstash-shipper'
+
 
 tmp_dir: '/tmp'

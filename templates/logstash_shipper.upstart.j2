@@ -1,8 +1,8 @@
 
 # {{ ansible_managed }}
 
-start on remote_filesystems rsyslog
-stop  on remove_filesystems rsyslog
+start on started {{ logstash.redis_service }}
+stop  on stopped {{ logstash.redis_service }}
 
 author      "Veros Kaplan <http://github.com/verosk/>"
 description "Logstash shipper"

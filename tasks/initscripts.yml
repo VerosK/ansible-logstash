@@ -1,15 +1,19 @@
 ---
 # Install Logstash indexer init script
 - name: "Install Logstash indexer init script"
-  sudo: yes
   action: template src=logstash_indexer.j2 dest=/etc/init.d/{{ logstash.indexer.service }} owner=root group=root mode=0755
   when: with_indexer
+  notify:
+    - "Enable Logstash indexer"
+    - "Restart Logstash indexer"
 
 # Install Logstash shipper init script
 - name: "Install Logstash shipper init script"
-  sudo: yes
   action: template src=logstash_shipper.j2 dest=/etc/init.d/{{ logstash.shipper.service }} owner=root group=root mode=0755
   when: with_shipper
+  notify:
+    - "Enable Logstash shipper"
+    - "Restart Logstash shipper"
 
 # Install Logstash indexer config
 - name: "Install Logstash indexer config"
@@ -17,6 +21,7 @@
   action: template src=logstash_indexer.conf.j2 dest={{ logstash.indexer.conf }} owner=root group=root mode=0755
   when: with_indexer
   notify:
+    - "Enable Logstash indexer"
     - "Restart Logstash indexer"
 
 # Install Logstash shipper config

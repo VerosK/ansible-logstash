@@ -1,32 +1,27 @@
 ---
-# Install Logstash indexer init script
-- name: "Install Logstash indexer init script"
-  sudo: yes
+- name: "Install Logstash indexer upstart config"
   template: src=logstash_indexer.upstart.j2 dest=/etc/init/{{ logstash.indexer.service }}.conf
           owner=root group=root mode=0644
   when: with_indexer
+  notify:
+      - "Reload upstart"
 
-
-# Install Logstash shipper init script
-- name: "Install Logstash shipper init script"
-  sudo: yes
+- name: "Install Logstash shipper upstart config"
   template: src=logstash_shipper.upstart.j2
             dest=/etc/init/{{ logstash.shipper.service }}.conf
             owner=root group=root mode=0644
   when: with_shipper
+  notify:
+      - "Reload upstart"
 
-# Install Logstash indexer config
 - name: "Install Logstash indexer config"
-  sudo: yes
   template: src=logstash_indexer.conf.j2 dest={{ logstash.indexer.conf }}
       owner=root group=root mode=0644
   when: with_indexer
   notify:
     - "Restart Logstash indexer"
 
-# Install Logstash shipper config
 - name: "Install Logstash shipper config"
-  sudo: yes
   action: template src=logstash_shipper.conf.j2 dest={{ logstash.shipper.conf }}
         owner=root group=root mode=0644
   when: with_shipper

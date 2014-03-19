@@ -27,11 +27,11 @@
   register: got_jar
 
 - name: "Start Logstash indexer"
-  action: service name={{ logstash.indexer.service }} state=started
+  service: name={{ logstash.indexer.service }} state=started
   when: with_indexer
 
 - name: "Start Logstash shipper"
-  action: service name={{ logstash.shipper.service }} state=started
+  service: name={{ logstash.shipper.service }} state=started
   when: with_shipper
 
 - name: "Link logstash /etc"

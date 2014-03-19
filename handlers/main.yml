@@ -1,8 +1,15 @@
 ---
+- name: "Enable Logstash indexer"
+  service: name={{ logstash.indexer.service }} enabled=yes
+
+- name: "Enable Logstash shipper"
+  service: name={{ logstash.shipper.service }} enabled=yes
+
 - name: "Restart Logstash indexer"
-  sudo: yes
-  action: service name={{ logstash.indexer.service }} state=restarted
+  service: name={{ logstash.indexer.service }} state=restarted
 
 - name: "Restart Logstash shipper"
-  sudo: yes
-  action: service name={{ logstash.shipper.service }} state=restarted
+  service: name={{ logstash.shipper.service }} state=restarted
+
+- name: "Reload upstart"
+  shell: initctl reload-configuration
