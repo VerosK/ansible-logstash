@@ -22,5 +22,4 @@ logstash:
     service: 'logstash-shipper'
     name: 'logstash-shipper'
 
-
 tmp_dir: '/tmp'

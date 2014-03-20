@@ -13,3 +13,6 @@
 
 - name: "Reload upstart"
   shell: initctl reload-configuration
+
+- name: Restart rsyslog
+  service: name=rsyslog state=restarted

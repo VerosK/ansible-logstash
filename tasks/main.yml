@@ -8,3 +8,9 @@
 
 - include: logstash.yml tags=logstash
   when: ansible_distribution in [ 'Debian', 'Ubuntu', 'CentOS' ]
+
+- name: Add rsyslog forwarding to logstash
+  template: src=rsyslog2logstash.j2 dest=/etc/rsyslog.d/99-forward.conf
+  notify: Restart rsyslog
+  when: include_rsyslog
+  # FIXME: Enable forwarding when selinux is enabled.
