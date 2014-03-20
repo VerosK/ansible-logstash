@@ -12,4 +12,4 @@ description "Logstash indexer"
 respawn
 respawn limit 60 5
 
-exec  /usr/bin/java -jar {{ logstash.dir }}/bin/{{ logstash.jar }} agent -f {{ logstash.indexer.conf }}
+exec  /usr/bin/java -jar {{ logstash.dir }}/bin/{{ logstash.jar }} agent -f {{ logstash.indexer.conf }} -- web
