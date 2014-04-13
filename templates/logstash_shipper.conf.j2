@@ -14,6 +14,6 @@ input {
 }
 
 output {
-#  stdout { debug => true debug_format => "json"}
+#  stdout { codec => "json" }
   redis { host => "{{ with_redis_server_ip }}" data_type => "list" key => "logstash" }
 }
