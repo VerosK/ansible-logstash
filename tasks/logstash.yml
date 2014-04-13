@@ -21,9 +21,9 @@
   when: logstash_start == 'upstart'
 
 - name: "Fetch Logstash.jar"
-  sudo: yes
   get_url: url={{ logstash.url }}/{{ logstash.jar }} dest={{ logstash.dir }}/bin/{{ logstash.jar }}
-           mode=0440 sha256sum={{ logstash.sha256 }}
+           mode=0440
+           sha256sum={{ logstash.sha256 }}
   register: got_jar
 
 - name: "Start Logstash indexer"
