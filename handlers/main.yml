@@ -1,18 +1,6 @@
 ---
-- name: "Enable Logstash indexer"
-  service: name={{ logstash.indexer.service }} enabled=yes
-
-- name: "Enable Logstash shipper"
-  service: name={{ logstash.shipper.service }} enabled=yes
-
 - name: "Restart Logstash indexer"
-  service: name={{ logstash.indexer.service }} state=restarted
-
-- name: "Restart Logstash shipper"
-  service: name={{ logstash.shipper.service }} state=restarted
-
-- name: "Reload upstart"
-  shell: initctl reload-configuration
+  service: name={{ logstash.service_name }} state=restarted
 
 - name: Restart rsyslog
   service: name=rsyslog state=restarted

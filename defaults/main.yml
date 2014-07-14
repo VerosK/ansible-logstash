@@ -4,3 +4,5 @@ with_indexer: True
 with_redis_server_ip: 127.0.0.1
 with_elasticsearch_ip: 127.0.0.1
 include_rsyslog: False
+logstash_base_url: 'http://download.elasticsearch.org/logstash/logstash/packages'
+logstash_tmp: '/tmp'

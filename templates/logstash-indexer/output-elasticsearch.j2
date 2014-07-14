@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+output  {
+    elasticsearch {
+        cluster => "{{ elasticsearch_cluster_name }}"
+        host => "{{ with_elasticsearch_ip }}"
+        protocol => "http"
+    }
+}

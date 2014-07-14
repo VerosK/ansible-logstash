@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+input {
+  syslog {
+     type => "syslog"
+     port => 5544
+  }
+}
+
+output {
+  redis {
+    host => "{{ with_redis_server_ip }}"
+    data_type => "list"
+    key => "logstash"
+  }
+}
+

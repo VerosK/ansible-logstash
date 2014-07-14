@@ -1,13 +1,52 @@
 ---
 # Install Logstash
-- set_fact: logstash_start=initscripts
-  when: ansible_distribution in [ 'Debian', 'Ubuntu' ]
+- name: add OS specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
 
-- set_fact: logstash_start=upstart
-  when: ansible_distribution in [ 'CentOS' ]
+- name: Warn if OS is unsupported
+  fail: msg="OS {{ ansible_os_family }} is unsupported"
+  when: not logstash.supported_os
 
-- include: logstash.yml tags=logstash
-  when: ansible_distribution in [ 'Debian', 'Ubuntu', 'CentOS' ]
+- include: centos.yml
+  when: ansible_os_family == "RedHat"
+
+- include: debian.yml
+  when: ansible_os_family == "Debian"
+
+- name: Check Logstash binary is installed
+  stat: path={{logstash.binary}}
+  register: logstash_binary
+
+- name: Fetch Logstash
+  get_url: url={{ logstash_base_url }}/{{ logstash.package }} dest={{ logstash_tmp }}
+          mode=0440
+  register: logstash_package_file
+  when: not logstash_binary.stat.exists
+
+- name: Install Logstash RPM package
+  yum: name={{ logstash_package_file.dest }} #
+  when: not logstash_binary.stat.exists and ansible_pkg_mgr == 'yum'
+
+- name: Install Logstash DEB package
+  apt: deb={{ logstash_package_file.dest }}
+  when: not logstash_binary.stat.exists and ansible_pkg_mgr == 'apt'
+
+- name: "Upload basic Logstash indexer config"
+  template: src=logstash-indexer/{{ item }}.j2 dest=/etc/logstash/conf.d/{{item}}.conf
+  when: with_indexer
+  with_items:
+    - input-redis
+    - output-elasticsearch
+  notify: "Restart Logstash indexer"
+
+
+- name: "Enable Logstash indexer"
+  service: name={{ logstash.service_name }} state=started enabled=yes
+  when: with_indexer
+
+- name: "Install Logstash shipper service"
+  include: logstash_service.yml service_name=logstash-shipper
+  when: with_shipper
 
 - name: Add rsyslog forwarding to logstash
   template: src=rsyslog2logstash.j2 dest=/etc/rsyslog.d/99-forward.conf

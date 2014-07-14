@@ -1,0 +1,15 @@
+---
+- name: "Install Logstash service - {{service_name}}"
+  action: template src=logstash_initscript.j2
+        dest=/etc/init.d/{{ service_name }}
+        owner=root group=root mode=0755
+
+- name: "Create directory with {{service_name}} config"
+  file: path=/etc/{{service_name}} state=directory
+
+- name: "Setup config with template"
+  template: src={{service_name}}.conf.j2 dest=/etc/{{service_name}}/00-config.cfg
+            owner=logstash group=logstash mode=0644
+
+- name: "Enable service {{service_name}}"
+  service: name={{service_name}} enabled=yes state=started
