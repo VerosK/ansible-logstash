@@ -2,7 +2,7 @@
 #
 # TCP Logging to local logstash with queue
 #
-$WorkDirectory /var/lib/rsyslog # where to place spool files
+$WorkDirectory {{logstash.rsyslog_spool}} # where to place spool files
 $ActionQueueFileName to-logstash # unique name prefix for spool files
 $ActionQueueMaxDiskSpace 1g   # 1gb space limit (use as much as possible)
 $ActionQueueSaveOnShutdown on # save messages to disk on shutdown

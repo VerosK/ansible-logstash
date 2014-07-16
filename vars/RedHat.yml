@@ -2,6 +2,7 @@
 logstash:
   package: 'centos/logstash-1.4.2-1_2c0f5a1.noarch.rpm'
   binary: '/opt/logstash/bin/logstash'
+  rsyslog_spool: '/var/lib/rsyslog'
   service_name: logstash
   dependencies:
     - 'java-1.7.0-openjdk'

@@ -2,6 +2,7 @@
 logstash:
   package: 'debian/logstash_1.4.2-1-2c0f5a1_all.deb'
   binary: '/opt/logstash/bin/logstash'
+  rsyslog_spool: '/var/spool/rsyslog'
   service_name: logstash
   dependencies:
     - 'openjdk-7-jre'
