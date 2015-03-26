@@ -48,6 +48,10 @@
   include: logstash_service.yml service_name=logstash-shipper
   when: with_shipper
 
+- name: Add configtest
+  template: src=logstash-configtest.j2 dest=/root/logstash-configtest
+            mode=0755
+
 - name: Add rsyslog forwarding to logstash
   template: src=rsyslog2logstash.j2 dest=/etc/rsyslog.d/99-forward.conf
   notify: "Restart rsyslog"
